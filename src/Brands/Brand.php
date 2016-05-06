@@ -16,6 +16,8 @@ class Brand extends Model
 
 	protected $fillable = ['name', 'logo_id'];
 
+	protected $nullable = ['logo_id'];
+
 	public function getSlugSourceField()
 	{
 		return 'name';
