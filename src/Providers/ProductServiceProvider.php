@@ -33,6 +33,10 @@ class ProductServiceProvider extends ServiceProvider
             "{$packageRoot}/database/migrations/" => database_path('migrations')
         ], 'migrations');
 
+        $this->publishes([
+            $packageRoot . '/config/products.php' => config_path('products.php')
+        ], 'config');
+
         // $this->loadTranslationsFrom("{$packageRoot}", 'products');
 
         $this->buildAdminMenu();
@@ -46,7 +50,7 @@ class ProductServiceProvider extends ServiceProvider
         {
             $lang = $this->app['translator'];
 
-            $menu->appendToItem($lang->get('products::menu_name'), [
+            $menu->appendToItem($lang->get(config('products.menu_name')), [
                 'Products' => 'admin.products.index',
                 'Categories' => 'admin.categories.index',
                 'Brands' => 'admin.brands.index',
