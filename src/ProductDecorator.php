@@ -15,11 +15,12 @@ use Bozboz\Admin\Reports\Filters\ArrayListingFilter;
 use Bozboz\Admin\Reports\Filters\SearchListingFilter;
 use Bozboz\Ecommerce\Products\Brands\BrandDecorator;
 use Bozboz\Ecommerce\Products\Categories\CategoryDecorator;
+use Bozboz\Ecommerce\Products\Contracts\Product;
 use Bozboz\Ecommerce\Products\Pricing\PriceField;
 use Bozboz\MediaLibrary\Models\Media;
+use Html;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
-use Html;
 
 class ProductDecorator extends ModelAdminDecorator
 {

@@ -23,11 +23,15 @@ class ProductServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $packageRoot = __DIR__ . '/../';
+        $packageRoot = __DIR__ . '/../..';
 
         if (! $this->app->routesAreCached()) {
-            require "{$packageRoot}Http/routes.php";
+            require "{$packageRoot}/src/Http/routes.php";
         }
+
+        $this->publishes([
+            "{$packageRoot}/database/migrations/" => database_path('migrations')
+        ], 'migrations');
 
         // $this->loadTranslationsFrom("{$packageRoot}", 'products');
 
