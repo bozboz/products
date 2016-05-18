@@ -2,9 +2,9 @@
 
 namespace Bozboz\Ecommerce\Products;
 
-use Bozboz\Admin\Models\Base;
+use Bozboz\Admin\Base\Model;
 
-class Feature extends Base
+class Feature extends Model
 {
 	protected $fillable = array('name', 'slug');
 

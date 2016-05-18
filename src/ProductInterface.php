@@ -1,8 +1,8 @@
 <?php
 
-namespace Bozboz\Ecommerce\Products\Contracts;
+namespace Bozboz\Ecommerce\Products;
 
-interface Product
+interface ProductInterface
 {
     public function getRawPriceField();
 

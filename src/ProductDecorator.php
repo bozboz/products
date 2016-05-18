@@ -15,7 +15,7 @@ use Bozboz\Admin\Reports\Filters\ArrayListingFilter;
 use Bozboz\Admin\Reports\Filters\SearchListingFilter;
 use Bozboz\Ecommerce\Products\Brands\BrandDecorator;
 use Bozboz\Ecommerce\Products\Categories\CategoryDecorator;
-use Bozboz\Ecommerce\Products\Contracts\Product;
+use Bozboz\Ecommerce\Products\ProductInterface;
 use Bozboz\Ecommerce\Products\Pricing\PriceField;
 use Bozboz\MediaLibrary\Models\Media;
 use Html;
@@ -29,7 +29,7 @@ class ProductDecorator extends ModelAdminDecorator
 	// protected $shippingDecorator;
 
 	public function __construct(
-		Product $model,
+		ProductInterface $model,
 		CategoryDecorator $categoryDecorator,
 		BrandDecorator $brandDecorator,
 		AttributeOptionDecorator $attributeDecorator//,
