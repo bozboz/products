@@ -8,7 +8,6 @@ use Bozboz\Admin\Media\MediableTrait;
 use Bozboz\Ecommerce\Products\AttributeOption;
 use Bozboz\Ecommerce\Products\Brands\Brand;
 use Bozboz\Ecommerce\Products\Categories\Category;
-use Bozboz\Ecommerce\Products\Contracts\Product as Contract;
 use Bozboz\Ecommerce\Products\Pricing\PriceRangeParser;
 use Bozboz\Ecommerce\Products\Pricing\PriceTrait;
 use Bozboz\Users\Membership\MemberPricesTrait;
@@ -16,7 +15,7 @@ use Bozboz\Users\User;
 use Illuminate\Support\Facades\Validator as ValidationFactory;
 use Illuminate\Validation\Validator;
 
-class Product extends Model implements Contract
+class Product extends Model implements ProductInterface
 {
 	protected $table = 'products';
 
@@ -124,6 +123,34 @@ class Product extends Model implements Contract
 	public function variationOf()
 	{
 		return $this->belongsTo(get_class($this), 'variation_of_id');
+	}
+
+	public function label()
+	{
+		if ($parent = $this->variationOf) {
+			$attributeOptions = $this->attributeOptions()->lists('value');
+			return sprintf('%s (%s)', $parent->name, implode(' ', $attributeOptions));
+		} else {
+			return $this->name;
+		}
+	}
+
+    // /**
+    //  * Return current model as a ProductVariant instance.
+    //  *
+    //  * @return Bozboz\Ecommerce\Products\ProductVariant
+    //  */
+    // private function transformToVariantObject()
+    // {
+    //     $variant = new ProductVariant;
+    //     $variant->setRawAttributes($this->getAttributes());
+
+    //     return $variant;
+    // }
+
+	public function image()
+	{
+		return $this->media()->first();
 	}
 
 	// public function shippingBand()
