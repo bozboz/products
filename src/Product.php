@@ -5,7 +5,7 @@ namespace Bozboz\Ecommerce\Products;
 use Bozboz\Admin\Base\DynamicSlugTrait;
 use Bozboz\Admin\Base\Model;
 use Bozboz\Admin\Media\MediableTrait;
-use Bozboz\Ecommerce\Products\AttributeOption;
+use Bozboz\Ecommerce\Products\Attributes\Options\Option;
 use Bozboz\Ecommerce\Products\Brands\Brand;
 use Bozboz\Ecommerce\Products\Categories\Category;
 use Bozboz\Ecommerce\Products\Pricing\PriceRangeParser;
@@ -67,7 +67,7 @@ class Product extends Model implements ProductInterface
 	public function attributeOptions()
 	{
 		return $this->belongsToMany(
-			AttributeOption::class,
+			Option::class,
 			'product_product_attribute_option',
 			'product_id',
 			'product_attribute_option_id'

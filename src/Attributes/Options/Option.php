@@ -1,17 +1,18 @@
 <?php
 
-namespace Bozboz\Ecommerce\Products;
+namespace Bozboz\Ecommerce\Products\Attributes\Options;
 
 use Bozboz\Admin\Base\Model;
+use Bozboz\Ecommerce\Products\Attributes\Attribute;
 
-class AttributeOption extends Model
+class Option extends Model
 {
 	protected $table = 'product_attribute_options';
 	protected $fillable = ['value', 'product_attribute_id'];
 
 	public function attribute()
 	{
-		return $this->belongsTo('Bozboz\Ecommerce\Products\Attribute', 'product_attribute_id');
+		return $this->belongsTo(Attribute::class, 'product_attribute_id');
 	}
 
 	public function products()
@@ -26,6 +27,6 @@ class AttributeOption extends Model
 
 	public function getValidator()
 	{
-
+		return new OptionValidator;
 	}
 }

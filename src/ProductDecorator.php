@@ -13,10 +13,11 @@ use Bozboz\Admin\Fields\TextField;
 use Bozboz\Admin\Fields\URLField;
 use Bozboz\Admin\Reports\Filters\ArrayListingFilter;
 use Bozboz\Admin\Reports\Filters\SearchListingFilter;
+use Bozboz\Ecommerce\Products\Attributes\Options\OptionDecorator;
 use Bozboz\Ecommerce\Products\Brands\BrandDecorator;
 use Bozboz\Ecommerce\Products\Categories\CategoryDecorator;
-use Bozboz\Ecommerce\Products\ProductInterface;
 use Bozboz\Ecommerce\Products\Pricing\PriceField;
+use Bozboz\Ecommerce\Products\ProductInterface;
 use Bozboz\MediaLibrary\Models\Media;
 use Html;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,7 +33,7 @@ class ProductDecorator extends ModelAdminDecorator
 		ProductInterface $model,
 		CategoryDecorator $categoryDecorator,
 		BrandDecorator $brandDecorator,
-		AttributeOptionDecorator $attributeDecorator//,
+		OptionDecorator $attributeDecorator//,
 		// ShippingBandDecorator $shippingDecorator
 	)
 	{
