@@ -153,11 +153,6 @@ class Product extends Model implements ProductInterface
 		return $this->media()->first();
 	}
 
-	// public function shippingBand()
-	// {
-	// 	return $this->belongsTo('Bozboz\Ecommerce\Shipping\ShippingBand');
-	// }
-
 	public function getVariantsList()
 	{
 		$list = [];

@@ -18,6 +18,7 @@ use Bozboz\Ecommerce\Products\Brands\BrandDecorator;
 use Bozboz\Ecommerce\Products\Categories\CategoryDecorator;
 use Bozboz\Ecommerce\Products\Pricing\PriceField;
 use Bozboz\Ecommerce\Products\ProductInterface;
+use Bozboz\Ecommerce\Shipping\ShippingBandDecorator;
 use Bozboz\MediaLibrary\Models\Media;
 use Html;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,20 +28,20 @@ class ProductDecorator extends ModelAdminDecorator
 {
 	protected $categoryDecorator;
 	protected $attributeDecorator;
-	// protected $shippingDecorator;
+	protected $shippingDecorator;
 
 	public function __construct(
 		ProductInterface $model,
 		CategoryDecorator $categoryDecorator,
 		BrandDecorator $brandDecorator,
-		OptionDecorator $attributeDecorator//,
-		// ShippingBandDecorator $shippingDecorator
+		OptionDecorator $attributeDecorator,
+		ShippingBandDecorator $shippingDecorator
 	)
 	{
 		$this->categoryDecorator = $categoryDecorator;
 		$this->brandDecorator = $brandDecorator;
 		$this->attributeDecorator = $attributeDecorator;
-		// $this->shippingDecorator = $shippingDecorator;
+		$this->shippingDecorator = $shippingDecorator;
 
 		parent::__construct($model);
 	}
@@ -52,7 +53,7 @@ class ProductDecorator extends ModelAdminDecorator
 			'Name' => $product->name,
 			'Variants' => $product->exists ? $this->linkToVariants($product->variants) : null,
 			'Category' => $product->exists ? $this->linkToCategory($product->categories) : null,
-			// 'Price' => format_money($product->price_pence),
+			'Price' => format_money($product->price_pence),
 			'Stock Level' => $product->exists ? (count($product->variants) ? '-' : $product->stock_level) : null,
 			'Added' => $product->created_at ? sprintf('<abbr title="%s">%s</a>',
 				$product->created_at->format('jS F Y'),
@@ -156,7 +157,7 @@ class ProductDecorator extends ModelAdminDecorator
 			new HTMLEditorField('description'),
 			new PriceField('price', ['label' => 'Base Price']),
 			new TextField('stock_level'),
-			// new BelongsToField($this->shippingDecorator, $instance->shippingBand()),
+			new BelongsToField($this->shippingDecorator, $instance->shippingBand()),
 			new TextField('weight'),
 			new TextField(['name' => 'sku', 'label' => 'SKU']),
 			new MediaBrowser($instance->media()),

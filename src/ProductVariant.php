@@ -2,8 +2,12 @@
 
 namespace Bozboz\Ecommerce\Products;
 
+use Bozboz\Ecommerce\Shipping\ShippableTrait;
+
 class ProductVariant extends Product
 {
+	use ShippableTrait;
+
 	protected $table = 'products';
 	protected $fieldsFromParent = ['name', 'slug', 'price', 'description', 'status'];
 
