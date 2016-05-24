@@ -9,18 +9,19 @@ use Bozboz\Admin\Fields\TextareaField;
 use Bozboz\Admin\Fields\TreeSelectField;
 use Bozboz\Admin\Fields\URLField;
 use Bozboz\MediaLibrary\Models\Media;
+use Illuminate\Database\Eloquent\Builder;
 use Config, Html;
 
-class CategoryDecorator extends ModelAdminDecorator
+abstract class CategoryDecorator extends ModelAdminDecorator
 {
 	public function __construct(Category $model)
 	{
 		parent::__construct($model);
 	}
 
-	public function getListingModels()
+	public function modifyListingQuery(Builder $query)
 	{
-		return $this->model->with('products')->get();
+		$query->with('products');
 	}
 
 	public function getColumns($category)
@@ -39,20 +40,14 @@ class CategoryDecorator extends ModelAdminDecorator
 
 	public function getFields($instance)
 	{
-		return array(
+		return array_merge([
 			new TextField('name'),
-			new TextareaField('description'),
-			// new URLField('slug', ['route' => Config::get('ecommerce::urls.products')]),
 			new TreeSelectField(
 				$this->model->all(),
 				['name' => 'parent_id', 'label' => 'Parent Category']
 			),
-			new MediaBrowser($instance->media())
-		);
+		], $this->getAdditionalFields($instance));
 	}
 
-	public function getSyncRelations()
-	{
-		return ['media'];
-	}
+	abstract public function getAdditionalFields($instance);
 }

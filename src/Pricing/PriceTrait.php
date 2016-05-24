@@ -53,4 +53,17 @@ trait PriceTrait
 	{
 		return $this->tax_rate > 0;
 	}
+
+	/**
+	 * Fetch products with the given price
+	 *
+	 * @param  Builder $query
+	 * @param  int $price
+	 * @return void
+	 */
+	public function scopeByPrice($query, $price)
+	{
+		$priceRange = new PriceRangeParser($price);
+		$priceRange->filter($query);
+	}
 }
