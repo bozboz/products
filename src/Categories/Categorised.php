@@ -11,8 +11,8 @@ trait Categorised
 
     public function scopeForCategory($query, $categoryId)
     {
-        $query->with('category')->whereHas('category', function($query) use ($categoryId) {
-            $query->find($categoryId);
+        $query->whereHas('category', function($query) use ($categoryId) {
+            $query->whereId($categoryId);
         });
     }
 
