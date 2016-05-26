@@ -19,19 +19,33 @@ trait Variable
         )->withTimestamps();
     }
 
+    public function variantLabel()
+    {
+        $attributeOptions = $this->attributeOptions()->lists('value');
+        $stockAvailability = '';
+
+        if (!$this->isAvailable()) {
+            $stockAvailability = '&nbsp;&nbsp;(OUT OF STOCK)';
+        } elseif ($this->stock_level < 10) {
+            $stockAvailability = '&nbsp;&nbsp;(Less than 10 in stock)';
+        }
+
+        return implode(' ', $attributeOptions) . ' - ' . $this->price . $stockAvailability;
+    }
+
     public function scopeVisible($query)
     {
-        return $query->whereNull('variation_of_id')->with('variants');
+        return $query->whereNull('variation_of')->with('variants');
     }
 
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class, 'variation_of_id');
+        return $this->hasMany(ProductVariant::class, 'variation_of');
     }
 
     public function variationOf()
     {
-        return $this->belongsTo(static::class, 'variation_of_id');
+        return $this->belongsTo(static::class, 'variation_of');
     }
 
     /**
