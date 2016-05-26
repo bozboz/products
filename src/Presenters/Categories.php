@@ -3,6 +3,7 @@
 namespace Bozboz\Ecommerce\Products\Presenters;
 
 use Bozboz\Admin\Fields\BelongsToField;
+use Bozboz\Admin\Fields\TreeSelectField;
 use Bozboz\Admin\Reports\Filters\RelationFilter;
 use Html;
 
@@ -27,8 +28,9 @@ class Categories extends Presenter
     public function getFields($instance)
     {
         return array_merge($this->presenter->getFields($instance), [
-            new BelongsToField(
-                $this->categories, $instance->category(), ['label' => 'Category']
+            new TreeSelectField(
+                $instance->category()->getRelated()->all(),
+                ['label' => 'Category', 'name' => $instance->category()->getForeignKey()]
             ),
         ]);
     }
