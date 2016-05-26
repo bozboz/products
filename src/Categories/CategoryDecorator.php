@@ -14,9 +14,30 @@ use Config, Html;
 
 abstract class CategoryDecorator extends ModelAdminDecorator
 {
-	public function __construct(Category $model)
+	private $presenter;
+
+	public function __construct(CategoryInterface $model)
 	{
 		parent::__construct($model);
+
+		$this->presenter = $this->getPresenter();
+	}
+
+	abstract protected function getPresenter();
+
+	public function getColumns($product)
+	{
+		return $this->presenter->getColumns($product);
+	}
+
+	public function getListingFilters()
+	{
+		return $this->presenter->getListingFilters($this->model);
+	}
+
+	public function getFields($instance)
+	{
+		return $this->presenter->getFields($instance);
 	}
 
 	public function modifyListingQuery(Builder $query)
@@ -24,30 +45,21 @@ abstract class CategoryDecorator extends ModelAdminDecorator
 		$query->with('products');
 	}
 
-	public function getColumns($category)
-	{
-		return array(
-			'Name' => $this->getLabel($category),
-			// 'Page' => Html::linkRoute(Config::get('ecommerce::urls.products'), null, $category->slug),
-			'Products' => $category->products()->count()
-		);
-	}
-
 	public function getLabel($model)
 	{
 		return $model->name;
 	}
 
-	public function getFields($instance)
-	{
-		return array_merge([
-			new TextField('name'),
-			new TreeSelectField(
-				$this->model->all(),
-				['name' => 'parent_id', 'label' => 'Parent Category']
-			),
-		], $this->getAdditionalFields($instance));
-	}
+	// public function getFields($instance)
+	// {
+	// 	return array_merge([
+	// 		new TextField('name'),
+	// 		new TreeSelectField(
+	// 			$this->model->all(),
+	// 			['name' => 'parent_id', 'label' => 'Parent Category']
+	// 		),
+	// 	], $this->getAdditionalFields($instance));
+	// }
 
-	abstract public function getAdditionalFields($instance);
+	// abstract public function getAdditionalFields($instance);
 }

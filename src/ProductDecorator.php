@@ -5,7 +5,6 @@ namespace Bozboz\Ecommerce\Products;
 use Bozboz\Admin\Base\ModelAdminDecorator;
 use Bozboz\Ecommerce\Products\ProductInterface;
 use Illuminate\Database\Eloquent\Builder;
-// use Illuminate\Support\Facades\Config;
 
 abstract class ProductDecorator extends ModelAdminDecorator
 {
