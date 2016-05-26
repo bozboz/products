@@ -40,25 +40,12 @@ trait Variable
 
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class, 'variation_of');
+        return $this->hasMany(static::class, 'variation_of');
     }
 
     public function variationOf()
     {
         return $this->belongsTo(static::class, 'variation_of');
-    }
-
-    /**
-     * Return current model as a ProductVariant instance.
-     *
-     * @return Bozboz\Ecommerce\Products\ProductVariant
-     */
-    private function transformToVariantObject()
-    {
-        $variant = new ProductVariant;
-        $variant->setRawAttributes($this->getAttributes());
-
-        return $variant;
     }
 
     public function getVariantsList()

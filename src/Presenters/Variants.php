@@ -2,8 +2,18 @@
 
 namespace Bozboz\Ecommerce\Products\Presenters;
 
+use HTML;
+
 class Variants extends Presenter
 {
+    private $editAction;
+
+    public function __construct($editAction, Presentable $presenter)
+    {
+        $this->editAction = $editAction;
+        parent::__construct($presenter);
+    }
+
     public function getLabel($instance)
     {
         $variantLabel = $instance->variation_of_id ? ' (' . implode(', ', $instance->attributeOptions->pluck('value')->all()) . ')' : '';
@@ -17,25 +27,14 @@ class Variants extends Presenter
         ]);
     }
 
-    public function getFields($instance)
-    {
-        return array_merge($this->presenter->getFields($instance), [
-
-        ]);
-    }
-
     private function linkToVariants($variants)
     {
-        $links = [];
-
-        foreach($variants as $variant) {
-            // $links[] = '- ' . Html::linkAction(
-            //     '\Bozboz\Ecommerce\Products\Http\Controllers\Admin\ProductController@edit',
-            //     implode(' ', $variant->attributeOptions->pluck('value')->all()) . ' (' . $variant->stock_level . ')',
-            //     [ $variant->id ]
-            // );
-        }
-
-        return implode('<br>', $links);
+        return $variants->map(function($variant) {
+            return '- ' . Html::linkAction(
+                $this->editAction,
+                $variant->name . ' (' . $variant->stock_level . ')',
+                [ $variant->id ]
+            );
+        })->implode('<br>');
     }
 }
