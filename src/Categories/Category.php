@@ -28,6 +28,6 @@ abstract class Category extends Model implements Sortable, CategoryInterface
 
 	public function products()
 	{
-		return $this->belongsToMany($this->getProductClass());
+		return $this->hasMany($this->getProductClass());
 	}
 }
