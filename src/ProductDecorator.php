@@ -42,7 +42,6 @@ abstract class ProductDecorator extends ModelAdminDecorator
 	public function getSyncRelations()
 	{
 		return $this->presenter->getSyncRelations();
-		return ['categories', 'relatedProducts', 'attributeOptions', 'media'];
 	}
 
 	protected function modifyListingQuery(Builder $query)
@@ -50,41 +49,5 @@ abstract class ProductDecorator extends ModelAdminDecorator
 		$query->visible();
 
 		parent::modifyListingQuery($query);
-	}
-
-	/**
-	 * Return a new instance of Product or ProductVariant, dependent on given
-	 * $attributes array.
-	 *
-	 * @param  array  $attributes
-	 * @return Bozboz\Ecommerce\Products\Product
-	 */
-	public function newModelInstance($attributes = array())
-	{
-		if ( ! empty($attributes['variation_of_id'])) {
-			return (new ProductVariant)->newInstance($attributes);
-		}
-
-		return parent::newModelInstance($attributes);
-	}
-
-	/**
-	 * Lookup instance by ID and return as Product or ProductVariant, dependent
-	 * on given $attributes array.
-	 *
-	 * @param  int  $id
-	 * @return Bozboz\Ecommerce\Products\Product
-	 */
-	public function findInstance($id)
-	{
-		$instance = parent::findInstance($id);
-
-		if ( ! $instance->variation_of_id) return $instance;
-
-		$variant = new ProductVariant;
-		$variant->setRawAttributes($instance->getAttributes());
-		$variant->exists = true;
-
-		return $variant;
 	}
 }
