@@ -9,7 +9,7 @@ class Brand extends Presenter
 {
     private $brands;
 
-    public function __construct($brands, Contract $presenter)
+    public function __construct($brands, Presentable $presenter)
     {
         $this->brands = $brands;
         parent::__construct($presenter);

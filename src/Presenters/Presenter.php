@@ -2,11 +2,11 @@
 
 namespace Bozboz\Ecommerce\Products\Presenters;
 
-class Presenter implements Contract
+class Presenter implements Presentable
 {
     protected $presenter;
 
-    public function __construct(Contract $presenter)
+    public function __construct(Presentable $presenter)
     {
         $this->presenter = $presenter;
     }

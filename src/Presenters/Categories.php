@@ -10,7 +10,7 @@ class Categories extends Presenter
 {
     private $categories;
 
-    public function __construct($categories, Contract $presenter)
+    public function __construct($categories, Presentable $presenter)
     {
         $this->categories = $categories;
 

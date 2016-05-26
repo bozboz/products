@@ -2,7 +2,7 @@
 
 namespace Bozboz\Ecommerce\Products\Presenters;
 
-interface Contract
+interface Presentable
 {
     public function getLabel($instance);
 

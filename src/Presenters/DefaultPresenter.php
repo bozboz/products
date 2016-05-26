@@ -7,7 +7,7 @@ use Bozboz\Admin\Fields\TextField;
 use Bozboz\Admin\Fields\URLField;
 use Bozboz\Admin\Reports\Filters\SearchListingFilter;
 
-class DefaultPresenter implements Contract
+class DefaultPresenter implements Presentable
 {
     private $route;
 

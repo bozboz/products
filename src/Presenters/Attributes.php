@@ -9,7 +9,7 @@ class Attributes extends Presenter
 {
     private $attributes;
 
-    public function __construct($attributes, Contract $presenter)
+    public function __construct($attributes, Presentable $presenter)
     {
         $this->attributes = $attributes;
 
@@ -19,7 +19,11 @@ class Attributes extends Presenter
     public function getFields($instance)
     {
         return array_merge($this->presenter->getFields($instance), [
-            new RelationField($instance->attributes(), $this->attributes),
+            new BelongsToManyField(
+                $this->attributes, $instance->attributeOptions(), [ 'label' => 'Attributes' ], function($query) {
+                    $query->with('attribute')->orderBy('product_attribute_id')->orderBy('value');
+                }
+            )
         ]);
     }
 }

@@ -8,7 +8,7 @@ class Related extends Presenter
 {
     private $products;
 
-    public function __construct($products, Contract $presenter)
+    public function __construct($products, Presentable $presenter)
     {
         $this->products = $products;
         parent::__construct($presenter);

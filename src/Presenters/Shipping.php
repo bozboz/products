@@ -9,7 +9,7 @@ class Shipping extends Presenter
 {
     private $shipping;
 
-    public function __construct($shipping, Contract $presenter)
+    public function __construct($shipping, Presentable $presenter)
     {
         $this->shipping = $shipping;
 
