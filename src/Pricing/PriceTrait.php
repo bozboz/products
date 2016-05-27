@@ -66,4 +66,9 @@ trait PriceTrait
 		$priceRange = new PriceRangeParser($price);
 		$priceRange->filter($query);
 	}
+
+    public function isTaxable()
+    {
+        return ! $this->tax_exempt;
+    }
 }
