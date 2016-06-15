@@ -42,11 +42,10 @@ class Categories extends Presenter
             new ArrayListingFilter(
                 'Category',
                 ['' => 'All'] + $this->getCategoryOptions($model->category()->getRelated()->withDepth()->get()->toTree()),
-                function($query, $category) {
+                function($query, $categoryId) {
+                    $category = $this->categoryDecorator->findInstance ($categoryId);
                     $query->whereHas('category', function($query) use ($category) {
-                        $query->where(function($query) use ($category) {
-                            $query->whereParentId($category)->orWhere('id', $category);
-                        });
+                        $query->whereBetween('_lft', [$category->_lft, $category->_rgt]);
                     });
                 }
             ),
