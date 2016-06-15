@@ -4,16 +4,17 @@ namespace Bozboz\Ecommerce\Products\Presenters;
 
 use Bozboz\Admin\Fields\BelongsToField;
 use Bozboz\Admin\Fields\TreeSelectField;
+use Bozboz\Admin\Reports\Filters\ArrayListingFilter;
 use Bozboz\Admin\Reports\Filters\RelationFilter;
 use Html;
 
 class Categories extends Presenter
 {
-    private $categories;
+    private $categoryDecorator;
 
-    public function __construct($categories, Presentable $presenter)
+    public function __construct($categoryDecorator, Presentable $presenter)
     {
-        $this->categories = $categories;
+        $this->categoryDecorator = $categoryDecorator;
 
         parent::__construct($presenter);
     }
@@ -38,7 +39,26 @@ class Categories extends Presenter
     public function getListingFilters($model)
     {
         return array_merge($this->presenter->getListingFilters($model), [
-            new RelationFilter($model->category(), $this->categories),
+            new ArrayListingFilter(
+                'Category',
+                ['' => 'All'] + $this->getCategoryOptions($model->category()->getRelated()->withDepth()->get()->toTree()),
+                function($query, $category) {
+                    $query->whereHas('category', function($query) use ($category) {
+                        $query->where(function($query) use ($category) {
+                            $query->whereParentId($category)->orWhere('id', $category);
+                        });
+                    });
+                }
+            ),
         ]);
+    }
+
+    public function getCategoryOptions($tree, $options = [])
+    {
+        foreach ($tree as $category) {
+            $options[$category->id] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $category->depth) . $category->name;
+            $options = $this->getCategoryOptions($category->children, $options);
+        }
+        return $options;
     }
 }
