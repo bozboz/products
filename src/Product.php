@@ -34,8 +34,7 @@ abstract class Product extends Model implements ProductInterface
 	public function label()
 	{
 		if ($parent = $this->variationOf) {
-			$attributeOptions = $this->attributeOptions()->pluck('value');
-			return sprintf('%s (%s)', $parent->name, $attributeOptions->implode(' '));
+			return sprintf('<strong>%s</strong> %s (%s)', $this->reference, $parent->name, $this->name);
 		} else {
 			return $this->name;
 		}
