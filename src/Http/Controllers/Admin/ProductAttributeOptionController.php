@@ -61,4 +61,24 @@ class ProductAttributeOptionController extends ModelAdminController
     {
         return action('\\' . get_class($this) . '@index', ['attribute' => $instance->product_attribute_id]);
     }
+
+    public function viewPermissions($stack)
+    {
+        $stack->add('ecommerce');
+    }
+
+    public function createPermissions($stack, $instance)
+    {
+        $stack->add('ecommerce', $instance);
+    }
+
+    public function editPermissions($stack, $instance)
+    {
+        $stack->add('ecommerce', $instance);
+    }
+
+    public function deletePermissions($stack, $instance)
+    {
+        $stack->add('ecommerce', $instance);
+    }
 }

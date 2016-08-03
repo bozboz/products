@@ -13,4 +13,24 @@ class BrandController extends ModelAdminController
     {
         parent::__construct($decorator);
     }
+
+    public function viewPermissions($stack)
+    {
+        $stack->add('ecommerce');
+    }
+
+    public function createPermissions($stack, $instance)
+    {
+        $stack->add('ecommerce', $instance);
+    }
+
+    public function editPermissions($stack, $instance)
+    {
+        $stack->add('ecommerce', $instance);
+    }
+
+    public function deletePermissions($stack, $instance)
+    {
+        $stack->add('ecommerce', $instance);
+    }
 }
