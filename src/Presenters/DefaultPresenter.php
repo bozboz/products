@@ -46,7 +46,19 @@ class DefaultPresenter implements Presentable
     public function getListingFilters($model)
     {
         return [
-            new SearchListingFilter('search', ['sku', 'name'])
+            new SearchListingFilter('search', function($builder, $value) {
+                $builder->where(function ($query) use ($value) {
+                    $attributes = ['sku', 'name'];
+                    foreach ($attributes as $attribute) {
+                        $query->orWhere($attribute, 'LIKE', '%' . $value . '%');
+                    }
+                    $query->orWhereHas('variationOf', function($query) use ($attributes, $value) {
+                        foreach ($attributes as $attribute) {
+                            $query->orWhere($attribute, 'LIKE', '%' . $value . '%');
+                        }
+                    });
+                });
+            })
         ];
     }
 

@@ -44,8 +44,15 @@ class Categories extends Presenter
                 ['' => 'All'] + $this->getCategoryOptions($model->category()->getRelated()->withDepth()->get()->toTree()),
                 function($query, $categoryId) {
                     $category = $this->categoryDecorator->findInstance ($categoryId);
-                    $query->whereHas('category', function($query) use ($category) {
-                        $query->whereBetween('_lft', [$category->_lft, $category->_rgt]);
+                    $query->where(function($query) use ($category) {
+                        $query->whereHas('category', function($query) use ($category) {
+                            $query->whereBetween('_lft', [$category->_lft, $category->_rgt]);
+                        });
+                        $query->orWhereHas('variationOf', function($query) use ($category) {
+                            $query->whereHas('category', function($query) use ($category) {
+                                $query->whereBetween('_lft', [$category->_lft, $category->_rgt]);
+                            });
+                        });
                     });
                 }
             ),
