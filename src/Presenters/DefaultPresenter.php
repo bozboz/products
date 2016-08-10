@@ -4,8 +4,8 @@ namespace Bozboz\Ecommerce\Products\Presenters;
 
 use Bozboz\Admin\Fields\CheckboxField;
 use Bozboz\Admin\Fields\TextField;
-use Bozboz\Admin\Fields\URLField;
 use Bozboz\Admin\Reports\Filters\SearchListingFilter;
+use Bozboz\Ecommerce\Products\Presenters\Fields\ProductURLField;
 
 class DefaultPresenter implements Presentable
 {
@@ -38,7 +38,10 @@ class DefaultPresenter implements Presentable
     {
         return [
             new TextField('name'),
-            $this->route ? new URLField('slug', ['route' => $this->route, 'data-auto-slug-from' => $instance->getSlugSourceField()]) : null,
+            $this->route && method_exists('category', $instance) ? new ProductURLField('slug', [
+                'route' => $this->route,
+                'data-auto-slug-from' => $instance->getSlugSourceField()
+            ]) : new TextField('slug'),
             new CheckboxField('status'),
         ];
     }

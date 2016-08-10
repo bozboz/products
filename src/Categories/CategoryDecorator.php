@@ -47,7 +47,7 @@ abstract class CategoryDecorator extends ModelAdminDecorator
 
 	public function getLabel($model)
 	{
-		return $model->name;
+		return str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $model->depth) . $model->name;
 	}
 
 	// public function getFields($instance)

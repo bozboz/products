@@ -30,4 +30,9 @@ abstract class Category extends Model implements Sortable, CategoryInterface
 	{
 		return $this->hasMany($this->getProductClass());
 	}
+
+	public static function query()
+	{
+		return parent::query()->withDepth()->orderBy('_lft');
+	}
 }
