@@ -42,24 +42,12 @@ abstract class CategoryDecorator extends ModelAdminDecorator
 
 	public function modifyListingQuery(Builder $query)
 	{
-		$query->with('products');
+		$query->with('products', 'parent');
+		parent::modifyListingQuery($query);
 	}
 
 	public function getLabel($model)
 	{
 		return str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $model->depth) . $model->name;
 	}
-
-	// public function getFields($instance)
-	// {
-	// 	return array_merge([
-	// 		new TextField('name'),
-	// 		new TreeSelectField(
-	// 			$this->model->all(),
-	// 			['name' => 'parent_id', 'label' => 'Parent Category']
-	// 		),
-	// 	], $this->getAdditionalFields($instance));
-	// }
-
-	// abstract public function getAdditionalFields($instance);
 }

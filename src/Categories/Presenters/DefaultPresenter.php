@@ -25,7 +25,12 @@ class DefaultPresenter implements Presentable
 
     public function getColumns($instance)
     {
-        $path = $instance->getAncestors()->pluck('slug')->filter()->push($instance->slug)->implode('/');
+        $path = $instance->slug;
+        $parent = $instance->parent;
+        while ($parent) {
+            $path = $parent->slug . '/' . $path;
+            $parent = $parent->parent;
+        }
         return [
             'Name' => $instance->name . '&nbsp;&nbsp;&nbsp;'
                 . HTML::decode(HTML::linkRoute($this->route, '<i class="fa fa-external-link"></i>', $path))
