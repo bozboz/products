@@ -55,7 +55,7 @@ class DefaultPresenter implements Presentable
                     foreach ($attributes as $attribute) {
                         $query->orWhere($attribute, 'LIKE', '%' . $value . '%');
                     }
-                    $query->orWhereHas('variationOf', function($query) use ($attributes, $value) {
+                    $query->orWhereHas('variants', function($query) use ($attributes, $value) {
                         foreach ($attributes as $attribute) {
                             $query->orWhere($attribute, 'LIKE', '%' . $value . '%');
                         }
