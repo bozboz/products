@@ -10,10 +10,14 @@ class PriceField extends TextField
 	public function getInput()
 	{
 		$input = parent::getInput();
-		$tax = Form::hidden('price_includes_tax', 0) . Form::label('price_includes_tax', 'Includes tax', [
-			'style' => 'display: inline-block; padding-right: 8px'
-		])
-		 . Form::checkbox('price_includes_tax');
+		if ($this->show_tax_toggle !== false) {
+			$tax = Form::hidden('price_includes_tax', 0) . Form::label('price_includes_tax', 'Includes tax', [
+				'style' => 'display: inline-block; padding-right: 8px'
+			])
+			 . Form::checkbox('price_includes_tax');
+		} else {
+			$tax = null;
+		}
 
 		return <<<HTML
 			<div class="input-group">
